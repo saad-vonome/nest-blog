@@ -3,10 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
-import { Category } from './categories/entities/category.entity';
-import { Post } from './posts/entities/post.entity';
 import { PostsModule } from './posts/posts.module';
-import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -23,8 +20,9 @@ import { UsersModule } from './users/users.module';
         username: config.get('DATABASE_USERNAME'),
         password: config.get('DATABASE_PASSWORD'),
         database: config.get('DATABASE_NAME'),
-        entities: [User, Category, Post],
-        synchronize: true, // Set to false in production
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
+        logging: true,
       }),
       inject: [ConfigService],
     }),
